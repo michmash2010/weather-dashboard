@@ -1,0 +1,61 @@
+.root {
+    --color1: #4484d8;
+    --color2: white;
+    --color3: black;
+    --border-radius: .3rem;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+header {
+    background-image: linear-gradient(to right, #4484d8, navy);
+    color: white;
+    text-align: center;
+    height: 80px;
+    padding-top: 15px;  
+}
+
+h1 {
+    font-weight: bolder;
+}
+
+h2 {
+    font-weight: bolder;
+    color: black;
+    text-align: left;
+}
+
+.btn {
+    font-size: 1.3rem;
+    text-decoration:none;
+    padding: 6px 5px;
+    width: 100%;
+    display: block;
+    margin: 5px 0;
+    border-radius: .3rem;
+    color:white;
+    border: none;
+    outline: none;
+    background-color:blue;
+}
+
+.form-label,
+.form-input,
+.form-textarea {
+  display: block;
+}
+
+.form-label {
+  font-size: 1.1rem;
+  margin: 0 0 0 5px;
+}
+
+.form-input {
+  width: 100%;
+  padding: 3%;
+  margin: 5px 0;
+  font-size: 1.2rem;
+  border: 2px solid black;
+  border-radius: .3rem;
+}
