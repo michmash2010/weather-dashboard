@@ -25,18 +25,36 @@
     </header>
 
     <main>
-        <div id="left-column" class="col-md-3">
-            <form id="user-form">
-                <label class="form-label" for="city">
-                    <h2>Search for a City:</h2>
-                </label>
-                <input name="city" id="city" type="text" autofocus="true" class="form-input" />
-                <button type="submit" class="btn">Search</button>
-            </form>
-        </div>
+        <div class="container">
+            <div class="row">
+                <div id="left-column" class="col-md-3">
+                    <form id="city-form">
+                        <label class="form-label" for="city">
+                            <h2>Search for a City:</h2>
+                        </label>
+                        <input name="city" id="city-input" type="text" autofocus="true" class="form-input" />
+                        <button type="submit" class="btn">Search</button>
+                    </form>
+                    <div id="saved-city-buttons">
+                        <!-- Saved city buttons go here, dynamically! -->
+                    </div>
+                </div>
 
-        <div id="right-column" class="col-md-9">
-            <h2></h2>
+
+
+                <div id="right-column" class="col-md-9">
+                    <div id="top-of-right-column">
+                        <h2 id="city-date-heading">City (Date) *icon*</h2>
+                        <p>Temp: <span id="today-temp"></span></p>
+                        <p>Wind: <span id="today-wind"></span></p>
+                        <p>Humidity: <span id="today-humidity"></span></p>
+                        <p>UV Index: <span id="today-uv-index"></span></p>
+                    </div>
+                    <div id="bottom-of-right-column">
+                        <h3>5-Day Forecast:</h3>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 
