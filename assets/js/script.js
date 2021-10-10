@@ -133,7 +133,7 @@ var getFiveDayForecast = function(searchCity) {
                                             console.log("inside fetch response 2");
                                             console.log(data);
                                             
-                                            
+
                                             console.log(data.daily[0].dt);
                                             console.log(new Date(data.daily[0].dt * 1000));
                                             console.log(data.daily[1].dt);
@@ -144,16 +144,10 @@ var getFiveDayForecast = function(searchCity) {
                                             console.log(data.daily[1].humidity);
 
                                         
-                                            // This is tomorrow's date
-
-                                            // create an array to hold the date, icon id, temp, wind, humidity for each of 5 days
-
-
                                             // loop through the fetched array to get date, temp, wind, humidity for each of 5 days, building the page
-                                            // for(i = 1; i < 6; i++) {
-                                            //     console.log("Date: " + new Date(data.daily[i].dt * 1000);
-                                            //     console.log("icon id: " + )
-                                            // }
+                                            for(i = 1; i < 6; i++) {
+                                                console.log("Date: " + new Date(data.daily[i].dt * 1000));
+                                            }
                                              
 
 
