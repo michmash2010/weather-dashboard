@@ -68,13 +68,10 @@ var getWeatherData = function(searchCity) {
                     .then(function(data) {
                         console.log("inside fetch response");
                         console.log(data);
-
                         // add the selected city to h2
                         cityDateHeadingEl.textContent = searchCity;
-
                         // add the date to h2
                         cityDateHeadingEl.textContent += " " + today;
-
                         // create the icon on h2
                         console.log(data.weather[0].icon);
                         var iconEl = document.createElement("span");
@@ -82,26 +79,20 @@ var getWeatherData = function(searchCity) {
                             `<img src="http://openweathermap.org/img/wn/` + data.weather[0].icon + `.png" />`;
                             //`<img src="http://openweathermap.org/img/wn/01n.png" />`;
                         cityDateHeadingEl.appendChild(iconEl);
-
                         // display Current Temp
                         console.log(data.main.temp);
                         todayTempEl.textContent = data.main.temp + "°F";
-
                         // display Current Wind Speed
                         console.log(data.wind.speed);
                         todayWindEl.textContent = data.wind.speed + " MPH";
-                        
                         // display Current Humidity
                         console.log(data.main.humidity);
                         todayHumidityEl.textContent = data.main.humidity + " %";
-
                         // display Current Feels-Like Temp
                         console.log(data.main.feels_like);
                         todayFeelsLikeEl.textContent = data.main.feels_like + "°F";
-
                         // call the getFiveDayForecast function
                         getFiveDayForecast(searchCity);
-
                     });
             } else {
                 alert("Error: City Not Found" + response.statusTest);
@@ -142,10 +133,31 @@ var getFiveDayForecast = function(searchCity) {
                                             console.log("inside fetch response 2");
                                             console.log(data);
                                             
+                                            
                                             console.log(data.daily[0].dt);
                                             console.log(new Date(data.daily[0].dt * 1000));
                                             console.log(data.daily[1].dt);
-                                            console.log(new Date(data.daily[1].dt * 1000));
+                                            console.log(new Date(data.daily[1].dt * 1000));  // tomorrow's date
+                                            console.log(data.daily[1].weather[0].icon);
+                                            console.log(data.daily[1].temp.day);
+                                            console.log(data.daily[1].wind_speed);
+                                            console.log(data.daily[1].humidity);
+
+                                        
+                                            // This is tomorrow's date
+
+                                            // create an array to hold the date, icon id, temp, wind, humidity for each of 5 days
+
+
+                                            // loop through the fetched array to get date, temp, wind, humidity for each of 5 days, building the page
+                                            // for(i = 1; i < 6; i++) {
+                                            //     console.log("Date: " + new Date(data.daily[i].dt * 1000);
+                                            //     console.log("icon id: " + )
+                                            // }
+                                             
+
+
+
                                         })
                                 }
                             })
