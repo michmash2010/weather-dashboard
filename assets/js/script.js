@@ -22,33 +22,36 @@ var formSubmitHandler = function(event) {
     console.log(searchCity);
 
     if(searchCity) {
-        console.log("inside if");
-        getWeatherData(searchCity);
-
-        // add the new city as a button
-        createCityButtons(searchCity);
-        
-        // clear old content
-        cityInputEl.textContent = "";
-        cityInputEl.value = "";      
-        
-        // remove pre-existing cards
-        var rightColumnBottomEl = document.querySelector("#bottom-of-right-column");
-
-        while (rightColumnBottomEl.hasChildNodes()) {
-            rightColumnBottomEl.removeChild(rightColumnBottomEl.firstChild);
-            console.log("REMOVING PRE-EXISTING CARDS?");
-        }
+        console.log("inside if of formSubmitHandler");
+        var getWeatherDataResult = getWeatherData(searchCity);
+            console.log(getWeatherDataResult);
+            
+            // add the new city as a button
+            createCityButtons(searchCity);
+            
+            // clear old content
+            cityInputEl.textContent = "";
+            cityInputEl.value = "";      
+            
+            // remove pre-existing cards
+            var rightColumnBottomEl = document.querySelector("#bottom-of-right-column");
+            while (rightColumnBottomEl.hasChildNodes()) {
+                rightColumnBottomEl.removeChild(rightColumnBottomEl.firstChild);
+            }
 
     } else {
         alert("Please enter a valid city name.");
     }
-    console.log(event);   
-};
+
+    cityInputEl.focus();  
+}
+
+
 
 var createCityButtons = function(searchCity) {
     var cityButtonEl = document.createElement("button");
     cityButtonEl.className = "btn";
+    cityButtonEl.setAttribute("data-city", searchCity);
     cityButtonEl.textContent = searchCity;
     cityButtonEl.style.background = "grey";
     cityButtonEl.style.margin = "15px 0 15px 0";
@@ -56,7 +59,6 @@ var createCityButtons = function(searchCity) {
 
     savedCityButtonsEl.appendChild(cityButtonEl);
 }
-
 
 var getWeatherData = function(searchCity) {
     console.log("made it to getWeatherData function");
@@ -97,9 +99,9 @@ var getWeatherData = function(searchCity) {
                         getFiveDayForecast(searchCity);
                     });
             } else {
-                alert("Error: City Not Found" + response.statusTest);
+                alert("Error: City Not Found");
             }
-        });
+        });  
 };
 
 var getFiveDayForecast = function(searchCity) {
@@ -204,8 +206,38 @@ var getFiveDayForecast = function(searchCity) {
         })
 };
 
+var buttonClickHandler = function(event) {
+    //prevent page from refreshing
+    event.preventDefault();
+
+    // get city attribute from the clicked button element
+    var searchCity = event.target.getAttribute("data-city");
+    console.log(searchCity);
+
+    if(searchCity) {
+        console.log("inside if of button click");
+        getWeatherData(searchCity);
+       
+        // clear old content
+        cityInputEl.textContent = "";
+        cityInputEl.value = "";      
+        
+        // remove pre-existing cards
+        var rightColumnBottomEl = document.querySelector("#bottom-of-right-column");
+        while (rightColumnBottomEl.hasChildNodes()) {
+            rightColumnBottomEl.removeChild(rightColumnBottomEl.firstChild);            
+        }
+    }
+
+    cityInputEl.focus();
+
+};
+
+
 // add event listener to form
 cityFormEl.addEventListener("submit", formSubmitHandler);
+
+savedCityButtonsEl.addEventListener("click", buttonClickHandler);
 
 // call the functions
 //getShortDate(today);
