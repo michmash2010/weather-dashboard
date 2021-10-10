@@ -90,6 +90,10 @@ h3 {
     width: 100%;
 }
 
+#bottom-of-right-column {
+    flex-wrap: wrap;
+}
+
 .cards {
     background-color:#39485e;
     min-height: 250px;

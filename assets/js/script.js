@@ -1,9 +1,6 @@
 var cityFormEl = document.querySelector("#city-form");
 var cityInputEl = document.querySelector("#city-input");
 var today = new Date();
-var tomorrow = new Date();
-tomorrow.setDate(today.getDate() + 1);  
-console.log(`Tomorrow's date is: ` + tomorrow);
 var dd = String(today.getDate()).padStart(2, '0');
 var mm = String(today.getMonth() + 1).padStart(2, '0'); 
 var yyyy = today.getFullYear();
@@ -26,13 +23,13 @@ var formSubmitHandler = function(event) {
     if(searchCity) {
         console.log("inside if");
         getWeatherData(searchCity);
-        
-        // clear old content
-        cityInputEl.textContent = "";
-        
+
         // add the new city as a button
         createCityButtons(searchCity);
         
+        // clear old content
+        cityInputEl.textContent = "";
+        cityInputEl.value = "";        
 
     } else {
         alert("Please enter a valid city name.");
@@ -51,10 +48,6 @@ var createCityButtons = function(searchCity) {
     savedCityButtonsEl.appendChild(cityButtonEl);
 }
 
-var date = function(today) {
-    console.log(today);
-    
-}
 
 var getWeatherData = function(searchCity) {
     console.log("made it to getWeatherData function");
@@ -112,10 +105,8 @@ var getFiveDayForecast = function(searchCity) {
                     .then(function(data) {
                         console.log("inside fetch response");
                         console.log(data);
-
                         // display tomorrow Temp
                         console.log(data.main.temp);
-                        //console.log(dt.temp);
                         todayTempEl.textContent = data.main.temp + "°F";
                         ///////////////////////////////////////////////////////////////////////////
                         console.log("lat = " + data.coord.lat);
@@ -123,7 +114,7 @@ var getFiveDayForecast = function(searchCity) {
                         console.log("lon = " + data.coord.lon);
                         var lon = data.coord.lon;
                         ///////////////////////////////////////////////////////////////////////////
-                        var apiUrl2 = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=hourly&appid=285b993a17ae7fb8fb9d5126a5cb88f5";
+                        var apiUrl2 = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&units=imperial&appid=285b993a17ae7fb8fb9d5126a5cb88f5&exclude=hourly&appid=285b993a17ae7fb8fb9d5126a5cb88f5";
 
                         fetch(apiUrl2)
                             .then(function(response) {
@@ -132,25 +123,72 @@ var getFiveDayForecast = function(searchCity) {
                                         .then(function(data) {
                                             console.log("inside fetch response 2");
                                             console.log(data);
+
+
                                             
-
-                                            console.log(data.daily[0].dt);
-                                            console.log(new Date(data.daily[0].dt * 1000));
-                                            console.log(data.daily[1].dt);
-                                            console.log(new Date(data.daily[1].dt * 1000));  // tomorrow's date
-                                            console.log(data.daily[1].weather[0].icon);
-                                            console.log(data.daily[1].temp.day);
-                                            console.log(data.daily[1].wind_speed);
-                                            console.log(data.daily[1].humidity);
-
-                                        
                                             // loop through the fetched array to get date, temp, wind, humidity for each of 5 days, building the page
                                             for(i = 1; i < 6; i++) {
-                                                console.log("Date: " + new Date(data.daily[i].dt * 1000));
+                                                // // remove pre-existing cards
+                                                // var rightColumnBottomEl = document.querySelector("#bottom-of-right-column");
+                                                // rightColumnBottomEl.removeChild(rightColumnBottomEl.childNodes);
+                                                
+                                                var date = new Date(data.daily[i].dt * 1000);
+                                                
+                                                // translate date into short date format
+                                                var dd = String(date.getDate()).padStart(2, '0');
+                                                var mm = String(date.getMonth() + 1).padStart(2, '0'); 
+                                                var yyyy = date.getFullYear();
+                                                var date = mm + "/" + dd + "/" + yyyy;
+                                                console.log("after date operations, date = " + date);
+
+                                                var icon = data.daily[i].weather[0].icon;
+                                                console.log("icon: " + icon);
+                                                var temp = data.daily[i].temp.day;
+                                                console.log("Temp: " + temp);
+                                                var wind = data.daily[i].wind_speed;
+                                                console.log("Wind: " + wind);
+                                                var humidity = data.daily[i].humidity;
+                                                console.log("Humidity: " + humidity);
+
+                                                // create 5-Day Forcast card
+                                                var cardEl = document.createElement("div");
+                                                cardEl.setAttribute("class", "cards p-2 flex-fill bd-highlight");
+                                                cardEl.setAttribute("id", ("card" + i));
+                                                
+                                                var rightColumnBottomEl = document.querySelector("#bottom-of-right-column");
+                                                rightColumnBottomEl.appendChild(cardEl);
+
+                                                // add elements to 5-Day Forecast cards
+                                                //create an h4 element for the date
+                                                var dateEl = document.createElement("h4");
+                                                dateEl.innerHTML = date;
+                                                var card = document.querySelector("#card" + i);
+                                                card.appendChild(dateEl);
+
+                                                //create a p element for the icon
+                                                var pEl = document.createElement("p");
+                                                var iconEl = document.createElement("span");
+                                                iconEl.innerHTML = 
+                                                    `<img src="http://openweathermap.org/img/wn/` + icon + `.png" />`;
+                                                document.querySelector("#card" + i).appendChild(pEl);
+                                                document.querySelector("#card" + i).appendChild(iconEl);
+
+                                                //create a p element for the temperature
+                                                var pEl = document.createElement("p");
+                                                pEl.innerHTML = ("Temp: " + temp + " °F");
+                                                document.querySelector("#card" + i).appendChild(pEl);
+
+                                                //create a p element for the wind
+                                                var pEl = document.createElement("p");
+                                                pEl.innerHTML = ("Wind: " + wind + " MPH");
+                                                document.querySelector("#card" + i).appendChild(pEl);
+
+                                                //create a p element for the humidity
+                                                var pEl = document.createElement("p");
+                                                pEl.innerHTML = ("Humidity: " + humidity + " %");
+                                                document.querySelector("#card" + i).appendChild(pEl);
+
                                             }
-                                             
-
-
 
                                         })
                                 }
@@ -164,6 +202,6 @@ var getFiveDayForecast = function(searchCity) {
 cityFormEl.addEventListener("submit", formSubmitHandler);
 
 // call the functions
-date(today);
+//getShortDate(today);
 
 
