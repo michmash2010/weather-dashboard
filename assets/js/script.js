@@ -125,7 +125,7 @@ var getFiveDayForecast = function(searchCity) {
 
                         // display tomorrow Temp
                         console.log(data.main.temp);
-                        console.log(dt.temp);
+                        //console.log(dt.temp);
                         todayTempEl.textContent = data.main.temp + "°F";
                     })
                 }
