@@ -35,9 +35,11 @@ p {
     font-size: 1.3rem;
     margin-top: 1rem;
 }
+
 h3 {
     padding-left: 15px;
 }
+
 .btn {
     font-size: 1.3rem;
     text-decoration:none;
@@ -86,4 +88,19 @@ h3 {
 
 #right-column {
     width: 100%;
+}
+
+.cards {
+    background-color:#39485e;
+    min-height: 250px;
+    min-width: 200px;
+    margin: 20px;
+    padding: 10px;
+    color: white;
+
+}
+
+h4 {
+    font-size: 2rem;
+    font-weight: bolder;
 }

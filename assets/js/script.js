@@ -1,6 +1,9 @@
 var cityFormEl = document.querySelector("#city-form");
 var cityInputEl = document.querySelector("#city-input");
 var today = new Date();
+var tomorrow = new Date();
+tomorrow.setDate(today.getDate() + 1);  
+console.log(`Tomorrow's date is: ` + tomorrow);
 var dd = String(today.getDate()).padStart(2, '0');
 var mm = String(today.getMonth() + 1).padStart(2, '0'); 
 var yyyy = today.getFullYear();
@@ -53,16 +56,6 @@ var date = function(today) {
     
 }
 
-var displayTodayForecast = function() {
-    console.log("made it to displayTodayForcast()");
-}
-
-
-var displayFiveDayForecast = function() {
-    console.log("made it to displayFiveDayForcast()");
-}
-
-
 var getWeatherData = function(searchCity) {
     console.log("made it to getWeatherData function");
     // api call to OpenWeather API
@@ -75,6 +68,21 @@ var getWeatherData = function(searchCity) {
                     .then(function(data) {
                         console.log("inside fetch response");
                         console.log(data);
+
+                        // add the selected city to h2
+                        cityDateHeadingEl.textContent = searchCity;
+
+                        // add the date to h2
+                        cityDateHeadingEl.textContent += " " + today;
+
+                        // create the icon on h2
+                        console.log(data.weather[0].icon);
+                        var iconEl = document.createElement("span");
+                        iconEl.innerHTML = 
+                            `<img src="http://openweathermap.org/img/wn/` + data.weather[0].icon + `.png" />`;
+                            //`<img src="http://openweathermap.org/img/wn/01n.png" />`;
+                        cityDateHeadingEl.appendChild(iconEl);
+
 
                         // display Current Temp
                         console.log(data.main.temp);
@@ -92,26 +100,8 @@ var getWeatherData = function(searchCity) {
                         console.log(data.main.feels_like);
                         todayFeelsLikeEl.textContent = data.main.feels_like + "°F";
 
-                        // add the selected city to h2
-                        cityDateHeadingEl.textContent = searchCity;
-
-                        // add the date to h2
-                        cityDateHeadingEl.textContent += " " + today;
-
-                        // create the icon on h2
-                        console.log(data.weather[0].icon);
-                        var iconEl = document.createElement("span");
-                        iconEl.innerHTML = 
-                            // `<img src="http://openweathermap.org/img/wn/10d@` + data.weather[0].icon + `.png" />`;
-                            `<img src="http://openweathermap.org/img/wn/01n.png" />`;
-                        cityDateHeadingEl.appendChild(iconEl);
-
-                        // display Icon
-                        //cityDateHeadingEl.innerHTML = "<img src="http://openweathermap.org/img/wn/10d@" + data.weather[0].icon + ".png /></span>";
-                        //http://openweathermap.org/img/wn/10d@2x.png
-                        //console.log(data[0].coord.id);
-                        displayTodayForecast();
-                        displayFiveDayForecast();
+                        // call the getFiveDayForecast function
+                        getFiveDayForecast(searchCity);
 
                     });
             } else {
@@ -120,6 +110,27 @@ var getWeatherData = function(searchCity) {
         });
 };
 
+var getFiveDayForecast = function(searchCity) {
+    console.log("made it to getFiveDayForecast function");
+    // api call to OpenWeather API
+    var apiUrl = "https://api.openweathermap.org/data/2.5/weather?q=" + searchCity + "&units=imperial&appid=285b993a17ae7fb8fb9d5126a5cb88f5";
+
+    fetch(apiUrl)
+        .then(function(response) {
+            if (response.ok) {
+                response.json()
+                    .then(function(data) {
+                        console.log("inside fetch response");
+                        console.log(data);
+
+                        // display tomorrow Temp
+                        console.log(data.main.temp);
+                        console.log(dt.temp);
+                        todayTempEl.textContent = data.main.temp + "°F";
+                    })
+                }
+            })
+        }
 
 // add event listener to form
 cityFormEl.addEventListener("submit", formSubmitHandler);
