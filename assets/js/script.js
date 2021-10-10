@@ -83,7 +83,6 @@ var getWeatherData = function(searchCity) {
                             //`<img src="http://openweathermap.org/img/wn/01n.png" />`;
                         cityDateHeadingEl.appendChild(iconEl);
 
-
                         // display Current Temp
                         console.log(data.main.temp);
                         todayTempEl.textContent = data.main.temp + "°F";
@@ -127,10 +126,33 @@ var getFiveDayForecast = function(searchCity) {
                         console.log(data.main.temp);
                         //console.log(dt.temp);
                         todayTempEl.textContent = data.main.temp + "°F";
+                        ///////////////////////////////////////////////////////////////////////////
+                        console.log("lat = " + data.coord.lat);
+                        var lat = data.coord.lat;
+                        console.log("lon = " + data.coord.lon);
+                        var lon = data.coord.lon;
+                        ///////////////////////////////////////////////////////////////////////////
+                        var apiUrl2 = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&exclude=hourly&appid=285b993a17ae7fb8fb9d5126a5cb88f5";
+
+                        fetch(apiUrl2)
+                            .then(function(response) {
+                                if (response.ok) {
+                                    response.json()
+                                        .then(function(data) {
+                                            console.log("inside fetch response 2");
+                                            console.log(data);
+                                            
+                                            console.log(data.daily[0].dt);
+                                            console.log(new Date(data.daily[0].dt * 1000));
+                                            console.log(data.daily[1].dt);
+                                            console.log(new Date(data.daily[1].dt * 1000));
+                                        })
+                                }
+                            })
                     })
-                }
-            })
-        }
+            }
+        })
+};
 
 // add event listener to form
 cityFormEl.addEventListener("submit", formSubmitHandler);
