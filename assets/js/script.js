@@ -11,6 +11,7 @@ var todayTempEl = document.querySelector("#today-temp");
 var todayWindEl = document.querySelector("#today-wind");
 var todayHumidityEl = document.querySelector("#today-humidity");
 var todayFeelsLikeEl = document.querySelector("#today-feels-like");
+var rightColumnBottomEl = document.querySelector("#bottom-of-right-column");
 
 var formSubmitHandler = function(event) {
     //prevent page from refereshing
@@ -29,7 +30,15 @@ var formSubmitHandler = function(event) {
         
         // clear old content
         cityInputEl.textContent = "";
-        cityInputEl.value = "";        
+        cityInputEl.value = "";      
+        
+        // remove pre-existing cards
+        var rightColumnBottomEl = document.querySelector("#bottom-of-right-column");
+
+        while (rightColumnBottomEl.hasChildNodes()) {
+            rightColumnBottomEl.removeChild(rightColumnBottomEl.firstChild);
+            console.log("REMOVING PRE-EXISTING CARDS?");
+        }
 
     } else {
         alert("Please enter a valid city name.");
@@ -128,9 +137,6 @@ var getFiveDayForecast = function(searchCity) {
                                             
                                             // loop through the fetched array to get date, temp, wind, humidity for each of 5 days, building the page
                                             for(i = 1; i < 6; i++) {
-                                                // // remove pre-existing cards
-                                                // var rightColumnBottomEl = document.querySelector("#bottom-of-right-column");
-                                                // rightColumnBottomEl.removeChild(rightColumnBottomEl.childNodes);
                                                 
                                                 var date = new Date(data.daily[i].dt * 1000);
                                                 
@@ -155,7 +161,7 @@ var getFiveDayForecast = function(searchCity) {
                                                 cardEl.setAttribute("class", "cards p-2 flex-fill bd-highlight");
                                                 cardEl.setAttribute("id", ("card" + i));
                                                 
-                                                var rightColumnBottomEl = document.querySelector("#bottom-of-right-column");
+                                                
                                                 rightColumnBottomEl.appendChild(cardEl);
 
                                                 // add elements to 5-Day Forecast cards
